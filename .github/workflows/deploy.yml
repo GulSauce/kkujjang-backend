@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-  workflow_dispatch: # 수동 실행 이벤트 추가
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
       # SSH 관련
       EC2_HOST: ${{secrets.KKUJJANG_DEVELOP_EC2_HOST}}
       EC2_PEM_KEY: ${{secrets.KKUJJANG_DEVELOP_EC2_PEM_KEY}}
-      EC2_USER: ubuntu
+      EC2_USER: ubuntu      
       # epxress.js 관련
       ENV_CONTENT: ${{ secrets.KKUJJANG_ENV_CONTENT }}
     
@@ -34,4 +34,4 @@ jobs:
           script: |
             cd ~/kkujjang-backend
             ENV_CONTENT='${{ env.ENV_CONTENT }}' 
-            bash ./kkujjang-backend/.github/workflows/deploy.sh
+            bash ~/kkujjang-backend/.github/workflows/deploy.sh

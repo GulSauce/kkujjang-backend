@@ -1,0 +1,37 @@
+name: 백엔드 개발 서버 EC2 배포
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch: # 수동 실행 이벤트 추가
+
+jobs:
+  deploy:
+    name: 배포 작업
+    runs-on: ubuntu-latest
+
+    env:
+      # SSH 관련
+      EC2_HOST: ${{secrets.KKUJJANG_DEVELOP_EC2_HOST}}
+      EC2_PEM_KEY: ${{secrets.KKUJJANG_DEVELOP_EC2_PEM_KEY}}
+      EC2_USER: ubuntu
+      # epxress.js 관련
+      ENV_CONTENT: ${{ secrets.KKUJJANG_ENV_CONTENT }}
+    
+    steps:
+      - name: Decode PEM key
+        run: |
+          echo "${{ env.EC2_PEM_KEY }}" | base64 -d > decoded_key.pem
+          chmod 600 decoded_key.pem
+
+      - name: EC2에 배포
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USER }}
+          key_path: decoded_key.pem
+          script: |
+            cd ~/kkujjang-backend
+            ENV_CONTENT='${{ env.ENV_CONTENT }}' 
+            bash ./kkujjang-backend/.github/workflows/deploy.sh

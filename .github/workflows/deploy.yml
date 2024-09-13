@@ -1,10 +1,10 @@
 name: 백엔드 개발 서버 EC2 배포
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - develop
-  workflow_dispatch:
 
 jobs:
   deploy:

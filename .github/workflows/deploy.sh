@@ -1,4 +1,3 @@
-cd ~/kkujjang-backend
 git switch develop
 git pull
 npm install

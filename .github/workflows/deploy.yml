@@ -15,10 +15,10 @@ jobs:
       # SSH 관련
       EC2_HOST: ${{secrets.KKUJJANG_DEVELOP_EC2_HOST}}
       EC2_PEM_KEY: ${{secrets.KKUJJANG_DEVELOP_EC2_PEM_KEY}}
-      EC2_USER: ubuntu      
-      # epxress.js 관련
+      EC2_USER: ubuntu
+      # express.js 관련
       ENV_CONTENT: ${{ secrets.KKUJJANG_ENV_CONTENT }}
-    
+
     steps:
       - name: Decode PEM key
         run: |
@@ -33,5 +33,4 @@ jobs:
           key_path: decoded_key.pem
           script: |
             cd ~/kkujjang-backend
-            ENV_CONTENT='${{ env.ENV_CONTENT }}' 
-            bash ~/kkujjang-backend/.github/workflows/deploy.sh
+            ENV_CONTENT='${{ env.ENV_CONTENT }}' bash ~/kkujjang-backend/.github/workflows/deploy.sh
